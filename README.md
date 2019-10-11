@@ -66,3 +66,80 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+### Dokus
+
+Scrimba
+Divjoy
+codepen.io
+https://jsonplaceholder.typicode.com/
+
+### Samples
+
+import React, { useState, useEffect } from 'react';
+
+const beispiel = () => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    document.title = `Du hast ${count} mal geklickt!`;
+  });
+
+  return (
+    <div>
+      <p>Du hast {count} mal geklickt!</p>
+      <button onClick={() => setCount(count + 1)}>
+        Klick mich!
+      </button>
+    </div>
+  );
+}
+
+####
+
+// function useDataFetch
+import { useState, useEffect } from 'react';
+
+const useDataFetch = (url) => {
+
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    const loadData = async url => {
+      const response = await fetch(url);
+      const json = await response.json();
+      setData(json);
+    };
+    loadData(url);
+  }, [url]);
+  return data;
+};
+
+export default useDataFetch;
+//
+// app Component
+//
+import React from 'react';
+import useDataFetch from './useDataFetch';
+
+const app = () => {
+  const data = useDataFetch('https://jsonplaceholder.typicode.com/posts/1');
+
+  const postTitle = () => {
+    if (data) {
+		return <h2>{data.title}</h2>;
+     else {
+     	return <h2>Daten werden geladen...</h2>;
+    }
+  };
+
+  return (
+    <div>
+      <h1>Fetch-Hook</h1>
+      <div>{postTitle()}</div>
+    </div>
+  );
+}
+
+export default app;
+
